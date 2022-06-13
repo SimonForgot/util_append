@@ -111,7 +111,8 @@ RUNPATH- 与 相同RPATH，但经过 搜索LD_LIBRARY_PATH，仅在最新的 UNI
 
 
 ###cmake的生成器
-作用是面向make，msvc，ninja这种build工具，所以它不需要指定项目的结构什么的这种所有配置阶段需要的东西
+######负责从 CMakeLists.txt 生成本地构建系统构建规则文件的，称为生成器（generator）
+作用是面向make，msvc，ninja这种build工具，所以它不需要指定项目的结构什么的这种构建阶段的东西
 `cmake -P xxx.cmake` 执行cmake文件
 `source_group()` 为IDE显示文件夹提供方便
 `Findxxx.cmake  CMAKE_MODULE_PATH CMAKE_PREFIX_PATH`: 设置cmake的findpackage路径找对应的库

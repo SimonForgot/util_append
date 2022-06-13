@@ -25,21 +25,22 @@ set(Qt5_DIR /home/zhangxinlong/mnt/apps/gaffer-dev/gafferDependencies-2.2.0-Pyth
 find_package(Qt5 CONFIG REQUIRED COMPONENTS Widgets Gui)
 target_compile_options(main PUBLIC WITH_QT)#未来就可以在main里按照条件做实现
 
-#判断是否找到TARGET的另一种方式
+#判断是否找到TARGET伪对象的另一种方式
 if(TARGET QT5::Gui) 
 
+#启用 CONFIGURE_DEPENDS 选项，当添加新文件时，自动更新变量
 aux_source_directory(. sources)
 #file(GLOB sources CONFIGURE_DEPENDS *.cpp *.h)
 #file(GLOB_RECURSE sources CONFIGURE_DEPENDS *.cpp *.h)  可能把build下的cpp也包进来
 
 
-#让静态库可以link静态库
+#让动态库可以link静态库
 add_library(my_staticlib STATIC xxx.cpp)
 set_target_properties(my_staticlib PROPERTIES POSITION_INDEPENDENT_CODE ON)
 #然后其他动态库就可以link它了
 
 
-#IMPORT的target，可用于FindXXX.cmake
+#IMPORT的target（称IMPORT target为伪对象，没有实体），可用于编写FindXXX.cmake
 if (NOT TARGET Maya::Maya)
     add_library(Maya::Maya UNKNOWN IMPORTED)
     set_target_properties(Maya::Maya PROPERTIES
@@ -67,6 +68,8 @@ if(NOT DEFINED XXX)
     set(XXX ON)
 endif()
 
+#if (DEFINED MYVAR) 可以判断是否存在 MYVAR 这个局部变量或缓存变量
+
 #if(变量)不用加${}
 
 message("$ENV{PATH}")
@@ -74,22 +77,37 @@ message("$CACHE{CMAKE_BUILD_TYPE}")
 #当${}找不到普通变量时，就会去找cache变量
 message("${CMAKE_BUILD_TYPE}")
 
-#不带CURRENT的就是表示顶层的，加了才是当前的
-#带PROJECT的表示最近一次调用project的
-#CMAKE_CURRENT_SOURCE_DIR 表示当前源码目录的位置，例如 ~/hellocmake。
-#CMAKE_CURRENT_BINARY_DIR 表示当前输出目录的位置，例如 ~/hellocmake/build
+
+
+#带PROJECT的表示[最近一次调用]project的
 #${PROJECT_NAME} 最近一次project名
 #${CMAKE_PROJECT_NAME} 顶层project名
-
 #PROJECT_SOURCE_DIR 表示最近一次调用 project 的 CMakeLists.txt 所在的源码目录。
+
+#不带CURRENT的CMAKE_前缀 是表示顶层的，加了CURRENT的才是当前的
 #CMAKE_CURRENT_SOURCE_DIR 表示当前 CMakeLists.txt 所在的源码目录。
 #CMAKE_SOURCE_DIR 表示最为外层 CMakeLists.txt 的源码根目录。
 #利用 PROJECT_SOURCE_DIR 可以实现从子模块里直接获得项目最外层目录的路径
+
+#PROJECT_IS_TOP_LEVEL：BOOL类型，表示当前项目是否是（最顶层的）根项目
+#PROJECT_NAME：当前项目名
+#CMAKE_PROJECT_NAME：根项目的项目名
+
+#所以使用裸的CMAKE_不是一个好习惯
+#使用project来管理比较清晰，相当于是一个新的project，方便复用
 if(WIN32)
     add_definitions(-DNOMINMAX -D_USE_MATH_DEFINES)
 endif()
 
 #相比于动态库，静态库没有跨平台的困扰
+
+#add_library 无参数时，是静态库还是动态库?
+会根据 BUILD_SHARED_LIBS 这个变量的值决定是动态库还是静态库。
+ON 则相当于 SHARED，OFF 则相当于 STATIC。
+如果未指定 BUILD_SHARED_LIBS 变量，则默认为 STATIC。
+因此，如果发现一个项目里的 add_library 都是无参数的，意味着你可以用：
+cmake -B build -DBUILD_SHARED_LIBS:BOOL=ON
+来让他全部生成为动态库
 
 #对象库类似于静态库，但不生成 .a 文件，只由 CMake 记住该库生成了哪些对象文件
 #对象库是 CMake 自创的，绕开了编译器和操作系统的各种繁琐规则，保证了跨平台统一性。
@@ -110,9 +128,18 @@ add_test(pytest ${Python_EXECUTABLE} pytest.py)
 add_custom_target(run COMMAND $<TARGET_FILE:main>)
 
 
+#生成器表达式
+语法：$<$<类型:值>:为真时的表达式>
+比如 $<$<PLATFORM_ID:Linux,Darwin>:MY_NAME=”Unix Like”>
+在 Windows 平台上会变为 MY_NAME=”Bill Gates”
+其他平台上则表现为空字符串
 
+#include 的 XXX.cmake 没有独立作用域
+#add_subdirectory 的 CMakeLists.txt 有独立作用域
+#macro 没有独立作用域
+#function 有独立作用域
 
-
+#set_target_properties 批量设置多个属性
 set_target_properties(foo PROPERTIES
   PUBLIC_HEADER "foo.h;${CMAKE_CURRENT_BINARY_DIR}/config.h")
 install(TARGETS foo
