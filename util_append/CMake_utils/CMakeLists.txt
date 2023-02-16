@@ -10,13 +10,23 @@ get_filename_component(ProjectId ${CMAKE_CURRENT_SOURCE_DIR} NAME)
 string(REPLACE " " "_" ProjectId ${ProjectId})
 project(${ProjectId} LANGUAGES CXX)
 
+# 使用示例
+add_library(IECore SHARED src/IECore/RefCounted.cpp)
+target_compile_definitions(IECore PRIVATE IECore_EXPORTS)
+target_compile_options(IECore PRIVATE -fvisibility=hidden)
+target_include_directories(IECore PUBLIC include)
+target_link_libraries(IECore Boost::date_time Boost::filesystem Boost::iostreams)
+
+target_compile_options(IECore PUBLIC
+  $<$<CXX_COMPILER_ID:MSVC>:/W4 /WX>
+  $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wall -Wextra -Wpedantic -Werror>
+)
 
 #find_package 生成的伪对象(imported target)都按照“包名::组件名”的格式命名。
 #你可以在 find_package 中通过 COMPONENTS 选项，后面跟随一个列表表示需要用的组件。
 #CONFIG表示只接受config模式不接受Findxxx模式
 find_package(TBB CONFIG COMPONENTS tbb tbbmalloc REQUIRED)
 target_link_libraries(main PUBLIC TBB::tbb TBB::tbbmalloc)
-
 
 
 #XXX_DIR设置之后，find_package就会去该处找XXXConfig.cmake
