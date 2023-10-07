@@ -1,0 +1,26 @@
+if ARGUMENTS.get('debug', 0):
+    env = Environment(CCFLAGS = '-g')
+else:
+    env = Environment(CCFLAGS = '')
+
+
+
+#runpath没有rpath那么强大，不能在运行的时候递归的找so，但是是比较推崇的做法。env中的RPATH用来设置编译时查找so的路径
+#env.Append(RPATH="/home/zhangxinlong/NxToolSets/3.1.0/NxMaya-5.3-2019/bin")
+
+#构建器方法返回的是一个Node list，print会打印它的名字，方便跨平台
+# #使用str得到Node的python str表示
+#print "!!!! node is",str(node_list[0])
+node_list=env.Program("scons_cpp",Glob("src/*.cpp"),LIBS=["nxcore"],LIBPATH=["/home/zhangxinlong/NxToolSets/3.1.0/NxMaya-5.3-2019/bin"],
+CPPPATH =["/home/zhangxinlong/NxToolSets/3.1.0/NxMaya-5.3-2019/include"],RPATH="/home/zhangxinlong/NxToolSets/3.1.0/NxMaya-5.3-2019/bin")
+
+#1st depends on 2ed
+env.Depends(node_list,"cube.ppm")
+
+#Install is also a builder,and by default the 1st arg of env.Install() can represent this target
+install_node=env.Install("./install",node_list)
+env.Alias('install', "./install")
+env.Alias('Simon', install_node)
+#,parse_flags='-Wl,-R,${ORIGIN}'
+
+#env.SharedLibrary("scons_cpp",Glob("src/*.cpp"),LIBS=['pthread'],LIBPREFIXES=['prefix_for_search_LIBS'],SHLIBPREFIX='for_output_file')

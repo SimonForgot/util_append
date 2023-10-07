@@ -1,0 +1,2 @@
+dynamically-linked-binary: main.cpp
+	g++ -o dynamically-linked-binary main.cpp /home/zhangxinlong/Desktop/tbb-4.4.6/build/linux_intel64_gcc_cc9_libc2.31_kernel5.15.0_release/*.o -static -L/home/zhangxinlong/Desktop/tbb-4.4.6/build/linux_intel64_gcc_cc9_libc2.31_kernel5.15.0_release -ltbb -lpthread -I/home/zhangxinlong/Desktop/tbb-4.4.6/include
