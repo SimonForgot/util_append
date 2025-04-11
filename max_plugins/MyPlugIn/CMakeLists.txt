@@ -12,7 +12,7 @@ find_package(MAXSDK REQUIRED)
 
 add_library(MyPlugIn SHARED MyPlugIn.cpp HelloUtil.cpp)
 target_include_directories(MyPlugIn PRIVATE ${MAXSDK_INCLUDE_DIR} ${CMAKE_SOURCE_DIR})
-target_link_libraries(MyPlugIn ${MAXSDK_core_LIBRARY} ${MAXSDK_maxutil_LIBRARY} ${MAXSDK_paramblk2_LIBRARY})
+target_link_libraries(MyPlugIn ${MAXSDK_LIBS})
 target_compile_definitions(MyPlugIn PRIVATE NOMINMAX UNICODE _UNICODE)
 set_target_properties(MyPlugIn PROPERTIES SUFFIX ".dlu")
 
