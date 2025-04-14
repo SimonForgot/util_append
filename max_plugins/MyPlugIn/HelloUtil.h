@@ -4,7 +4,6 @@
 #include <Qt/QmaxSpinBox.h>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QVBoxLayout>
-#include <QtWidgets/QMessageBox>
 
 class PluginUI : public MaxSDK::QmaxRollupContainer
 {
@@ -31,14 +30,10 @@ class HelloUtil : public UtilityObj, public QObject
 private:
 	INode *target_node;
 	PluginUI *UI;
-
+	
 public:
 	void BeginEditParams(Interface *ip, IUtil *iu);
 	void EndEditParams(Interface *ip, IUtil *iu);
 	void DeleteThis() {}
-	void onButtonClicked()
-	{
-		float value = UI->spinBox->value();
-		QMessageBox::information(UI, "", QString("Value: %1").arg(value));
-	}
+	void onButtonClicked();
 };
