@@ -8,6 +8,7 @@ if "%1"=="" (
     ::vs2022 :"Visual Studio 17 2022" -A x64
     cmake -Bbuild -G "Visual Studio 17 2022" -A x64 ^
     -DMAXSDK="C:\Program Files\Autodesk\3ds Max 2026 SDK\maxsdk" ^
+    -DQt6_ROOT="D:\Qt6\6.5.3\msvc2019_64" ^ 
     -DCMAKE_INSTALL_PREFIX=%INSTALL_DIR%
 )else if "%1"=="c" (
     cmake --build build -j36 --config Release --clean-first
