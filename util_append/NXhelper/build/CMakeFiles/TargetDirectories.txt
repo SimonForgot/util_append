@@ -1,9 +1,0 @@
-/home/zhangxinlong/simon/repos/NXhelper/build/CMakeFiles/install/strip.dir
-/home/zhangxinlong/simon/repos/NXhelper/build/CMakeFiles/install/local.dir
-/home/zhangxinlong/simon/repos/NXhelper/build/CMakeFiles/install.dir
-/home/zhangxinlong/simon/repos/NXhelper/build/CMakeFiles/list_install_components.dir
-/home/zhangxinlong/simon/repos/NXhelper/build/CMakeFiles/rebuild_cache.dir
-/home/zhangxinlong/simon/repos/NXhelper/build/CMakeFiles/run.dir
-/home/zhangxinlong/simon/repos/NXhelper/build/CMakeFiles/demo.dir
-/home/zhangxinlong/simon/repos/NXhelper/build/CMakeFiles/edit_cache.dir
-/home/zhangxinlong/simon/repos/NXhelper/build/CMakeFiles/NXhelper.dir

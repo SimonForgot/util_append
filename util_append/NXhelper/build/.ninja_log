@@ -1,7 +1,0 @@
-# ninja log v5
-1	262	1652864113270503017	CMakeFiles/demo.dir/main.cpp.o	aa69597c0696c91f
-316	358	1652864113366504154	libNXhelper.so	b9f2b95148f46d4c
-358	483	1652864113489505609	demo	4c0ba8778ad0d426
-1	316	1652864113324503656	CMakeFiles/NXhelper.dir/NXhelper.cpp.o	62b154afccccdaf1
-1	51	0	CMakeFiles/run	7a5a02c8cd6e5872
-0	73	0	CMakeFiles/run	7a5a02c8cd6e5872

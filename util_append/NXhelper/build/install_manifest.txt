@@ -1,2 +1,0 @@
-/home/zhangxinlong/simon/apps/NXhelper/lib/libNXhelper.so
-/home/zhangxinlong/simon/apps/NXhelper/include/NXhelper.h

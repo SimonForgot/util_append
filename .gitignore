@@ -1,2 +1,5 @@
 testcpp/*/build/
 testcpp/*/debug_build/
+max_plugins/*/build/
+max_plugins/*/debug_build/
+max_plugins/plugins/
