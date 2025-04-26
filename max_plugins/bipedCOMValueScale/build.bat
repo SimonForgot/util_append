@@ -1,5 +1,5 @@
 @echo off
-set INSTALL_DIR=./install
+set INSTALL_DIR=../plugins
 
 if "%1"=="" (
     RMDIR /S /Q build
@@ -8,7 +8,6 @@ if "%1"=="" (
     ::vs2022 :"Visual Studio 17 2022" -A x64
     cmake -Bbuild -G "Visual Studio 17 2022" -A x64 ^
     -DMAXSDK="C:\Program Files\Autodesk\3ds Max 2023 SDK\maxsdk" ^
-    -DQt5_ROOT="D:\Qt5\5.15.1\msvc2019_64" ^ 
     -DCMAKE_INSTALL_PREFIX=%INSTALL_DIR%
 )else if "%1"=="c" (
     cmake --build build -j36 --config Release --clean-first
